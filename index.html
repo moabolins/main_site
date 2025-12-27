@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latvian Heritage</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .band {
+            flex: 1;
+            position: relative;
+            min-height: 33.33vh;
+        }
+
+        .top-band {
+            background-color: #9E3039;
+        }
+
+        .middle-band {
+            background-color: #FFFFFF;
+            flex: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .bottom-band {
+            background-color: #9E3039;
+        }
+
+        .text-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 500px;
+            width: 100%;
+            z-index: 10;
+        }
+
+        .text-container {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 2px solid #9E3039;
+        }
+
+        .text-container h2 {
+            color: #9E3039;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .text-container p {
+            color: #333;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        .monument-container {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+        //  height: calc(66.66vh - 80px);
+            height: calc(60vh - 40px);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            z-index: 5;
+        }
+
+        .monument-container:hover {
+            transform: scale(1.02);
+        }
+
+        .monument-container img {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .clover-container {
+            position: absolute;
+            bottom: 140px;
+            right: 40px;
+        //  height: calc(33.33vh - 80px);
+            height: calc(40vh - 40px);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            z-index: 5;
+        }
+
+        .clover-container:hover {
+            transform: scale(1.05);
+        }
+
+        .clover-container img {
+        //  width: 100px;
+        //  height: 140px;
+            height: 100%;
+            width: auto;
+        //  object-fit: contain;
+            object-fit: cover;
+            border-radius: 10px;
+        //  background-color: white;
+        //  padding: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            max-width: 90%;
+            width: 600px;
+            border: 3px solid #9E3039;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            pointer-events: none;
+        }
+
+        .popup.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .popup h3 {
+            color: #9E3039;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+
+        .popup p {
+            color: #333;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        .popup a {
+            color: #9E3039;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+
+        .popup a:hover {
+            color: #7a2530;
+        }
+
+        .close-popup {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #9E3039;
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            line-height: 1;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            pointer-events: none;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        /* Desktop hover behavior */
+        @media (min-width: 769px) {
+            .monument-container:hover {
+                transform: scale(1.02);
+            }
+
+            .clover-container:hover {
+                transform: scale(1.05);
+            }
+        }
+
+        /* Mobile responsive styles */
+        @media (max-width: 768px) {
+            body {
+                overflow-y: auto;
+                min-height: auto;
+            }
+
+            .band {
+                min-height: auto;
+            }
+
+            .top-band {
+                padding: 20px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .middle-band {
+                padding: 20px;
+                flex: none;
+            }
+
+            .bottom-band {
+                padding: 20px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .text-content {
+                max-width: 100%;
+            }
+
+            .text-container {
+                padding: 15px;
+            }
+
+            .text-container h2 {
+                font-size: 18px;
+            }
+
+            .text-container p {
+                font-size: 14px;
+            }
+
+            .monument-container {
+                position: static;
+                height: auto;
+                margin: 0;
+                width: fit-content;
+            }
+
+            .monument-container img {
+                height: auto;
+                max-height: 250px;
+                width: auto;
+                max-width: 100%;
+            }
+
+            .clover-container {
+                position: static;
+                margin: 0;
+                width: fit-content;
+            }
+
+            .clover-container img {
+                width: 100px;
+                height: 100px;
+            }
+
+            .close-popup {
+                display: flex;
+            }
+
+            .popup {
+                max-width: 90%;
+                padding: 40px 20px 20px;
+                max-height: 80vh;
+                overflow-y: auto;
+            }
+
+            .popup h3 {
+                font-size: 20px;
+                padding-right: 30px;
+            }
+
+            .popup p {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Band (Maroon) -->
+    <div class="band top-band">
+        <!-- Monument Image (positioned absolutely on desktop, inside band on mobile) -->
+        <div class="monument-container" id="monumentImage">
+            <img src="images/monument.jpg" alt="Freedom Monument">
+        </div>
+    </div>
+
+    <!-- Middle Band (White) -->
+    <div class="band middle-band">
+        <div class="text-content">
+            <!-- first in Latvian -->
+            <div class="text-container">
+                <h2>Latvija - Ziemeļeiropas dārgakmens</h2>
+                <p>Latvija ir Baltijas valstu valsts ar spilgtu kultūras mantojumu un skaistām ainavām. Ar spēcīgu nacionālās identitātes izjūtu Latvija ir apliecinājums tās tautas noturīgajam garam.
+                <BR>[Atvainojiet, ja atrodat sliktu tulkojumu. Es mācos valodu un izmantoju Google.]</p>
+            </div>
+            <!-- then in English -->
+            <div class="text-container">
+                <h2>Latvia - A Northern European Gem</h2>
+                <p>Latvia is a Baltic nation with a vibrant cultural heritage, and beautiful landscapes. With a strong sense of national identity, Latvia stands as a testament to the enduring spirit of its people.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Band (Maroon) -->
+    <div class="band bottom-band">
+        <!-- Clover Image (positioned absolutely on desktop, inside band on mobile) -->
+        <div class="clover-container" id="cloverImage">
+            <img src="images/clover.jpg" alt="Clover">
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Monument Popup -->
+    <div class="popup" id="monumentPopup">
+        <button class="close-popup" id="closeMonument">×</button>
+        <h3>May 4th - Restoration of Independence</h3>
+        <p>On May 4, 1990, Latvia declared the restoration of its independence, marking a pivotal moment in the nation's history after decades of Soviet occupation and the culmination of the peaceful Singing Revolution. The Freedom Monument in Riga stands as a powerful symbol of Latvia's sovereignty.</p>
+    </div>
+
+    <!-- Clover Popup -->
+    <div class="popup" id="cloverPopup">
+        <button class="close-popup" id="closeClover">×</button>
+        <h3>The Aboliņš Name</h3>
+        <p>The surname Aboliņš translates to "clover" in Latvian.  Many Latvian surnames are nature-inspired and draw from the beauty of the surrounding landscape, celebrating flora, fauna, and the seasons. Clover has long been a symbol of good fortune and prosperity.</p>
+        <p style="margin-top: 15px;"><a href="rollodex.html" target="_blank">here is a list of some people that share the name.</a></p>
+    </div>
+
+    <script>
+        const monumentImage = document.getElementById('monumentImage');
+        const cloverImage = document.getElementById('cloverImage');
+        const monumentPopup = document.getElementById('monumentPopup');
+        const cloverPopup = document.getElementById('cloverPopup');
+        const overlay = document.getElementById('overlay');
+        const closeMonument = document.getElementById('closeMonument');
+        const closeClover = document.getElementById('closeClover');
+
+        let activePopup = null;
+
+        // Function to check if we're on desktop
+        function isDesktop() {
+            return window.innerWidth > 768;
+        }
+
+        // Desktop hover behavior - keep popup open when hovering over it
+        monumentImage.addEventListener('mouseenter', () => {
+            if (isDesktop()) {
+                monumentPopup.classList.add('active');
+                overlay.classList.add('active');
+                activePopup = 'monument';
+            }
+        });
+
+        monumentImage.addEventListener('mouseleave', (e) => {
+            if (isDesktop()) {
+                setTimeout(() => {
+                    if (activePopup === 'monument' && !monumentPopup.matches(':hover')) {
+                        monumentPopup.classList.remove('active');
+                        overlay.classList.remove('active');
+                        activePopup = null;
+                    }
+                }, 650);
+            }
+        });
+
+        monumentPopup.addEventListener('mouseenter', () => {
+            if (isDesktop()) {
+                activePopup = 'monument';
+            }
+        });
+
+        monumentPopup.addEventListener('mouseleave', () => {
+            if (isDesktop()) {
+                monumentPopup.classList.remove('active');
+                overlay.classList.remove('active');
+                activePopup = null;
+            }
+        });
+
+        cloverImage.addEventListener('mouseenter', () => {
+            if (isDesktop()) {
+                cloverPopup.classList.add('active');
+                overlay.classList.add('active');
+                activePopup = 'clover';
+            }
+        });
+
+        cloverImage.addEventListener('mouseleave', (e) => {
+            if (isDesktop()) {
+                setTimeout(() => {
+                    if (activePopup === 'clover' && !cloverPopup.matches(':hover')) {
+                        cloverPopup.classList.remove('active');
+                        overlay.classList.remove('active');
+                        activePopup = null;
+                    }
+                }, 650);
+            }
+        });
+
+        cloverPopup.addEventListener('mouseenter', () => {
+            if (isDesktop()) {
+                activePopup = 'clover';
+            }
+        });
+
+        cloverPopup.addEventListener('mouseleave', () => {
+            if (isDesktop()) {
+                cloverPopup.classList.remove('active');
+                overlay.classList.remove('active');
+                activePopup = null;
+            }
+        });
+
+        // Mobile click behavior
+        monumentImage.addEventListener('click', () => {
+            if (!isDesktop()) {
+                monumentPopup.classList.add('active');
+                overlay.classList.add('active');
+            }
+        });
+
+        cloverImage.addEventListener('click', () => {
+            if (!isDesktop()) {
+                cloverPopup.classList.add('active');
+                overlay.classList.add('active');
+            }
+        });
+
+        // Close popup functions
+        function closePopups() {
+            monumentPopup.classList.remove('active');
+            cloverPopup.classList.remove('active');
+            overlay.classList.remove('active');
+            activePopup = null;
+        }
+
+        closeMonument.addEventListener('click', closePopups);
+        closeClover.addEventListener('click', closePopups);
+        overlay.addEventListener('click', closePopups);
+    </script>
+</body>
+</html>

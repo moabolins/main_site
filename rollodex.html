@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rolodex List</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        //  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #8E3039 0%, #AE3039 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            margin: 0;
+            overflow: hidden; /* Prevent body scroll on mobile */
+        }
+
+        .rolodex-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            padding: 30px 20px 20px;
+            font-size: 2em;
+            flex-shrink: 0;
+        }
+
+        .rolodex-list {
+            list-style: none;
+            overflow-y: auto;
+            overflow-x: hidden;
+            flex: 1;
+            padding: 20px 10px;
+            position: relative;
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+        }
+
+        /* Mobile: Add padding so first and last items can scroll to center */
+        @media (max-width: 600px) {
+            .rolodex-list {
+                padding-top: calc(50vh - 100px); /* Half viewport minus header/item height */
+                padding-bottom: calc(50vh - 80px);
+            }
+        }
+
+        .rolodex-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .rolodex-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .rolodex-list::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 10px;
+        }
+
+        .rolodex-item {
+            margin: 10px 0;
+        //  transition: all 0.15s ease-out; /* Faster transition */
+            transition: all 0.09s linear; /* Faster transition */
+            transform-origin: center;
+        }
+
+        .rolodex-item a {
+            display: block;
+            padding: 15px 20px;
+            text-decoration: none;
+            color: #333;
+            background: #f8f9fa;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.15s ease-out; /* Faster transition */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Desktop hover effect */
+        @media (hover: hover) and (pointer: fine) {
+            .rolodex-item a:hover {
+            //  transform: scale(1.2);
+                transform: scale(1.05);
+                background: linear-gradient(135deg, #DF6170 0%, #FF6170 100%);
+            //  above is lighter shade
+            //  background: linear-gradient(135deg, #8E3039 0%, #AE3039 100%);
+                color: white;
+                box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+                z-index: 10;
+                position: relative;
+            }
+        }
+
+        /* Mobile/touch active state */
+        .rolodex-item.active a {
+        //  transform: scale(1.2);
+            transform: scale(1.05);
+            background: linear-gradient(135deg, #DF6170 0%, #FF6170 100%);
+        //  background: linear-gradient(135deg, #8E3039 0%, #AE3039 100%);
+            color: white;
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+            z-index: 10;
+            position: relative;
+        }
+
+        /* Smooth scrolling */
+        .rolodex-list {
+            scroll-behavior: smooth;
+        }
+
+        /* Desktop specific styles */
+        @media (min-width: 601px) {
+            body {
+                padding: 20px;
+                overflow: auto;
+            }
+
+            .rolodex-container {
+                max-width: 500px;
+                height: auto;
+                padding: 40px 30px;
+            }
+
+            h1 {
+                margin-bottom: 30px;
+                padding: 0;
+            }
+
+            .rolodex-list {
+                max-height: 500px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .rolodex-container {
+                border-radius: 0;
+                max-width: none;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .rolodex-item a {
+                font-size: 1em;
+                padding: 12px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="rolodex-container">
+        <h1>Aboliņš</h1>
+        <ul class="rolodex-list" id="rolodexList">
+            <li class="rolodex-item"><a href="#airis">Airis</a></li>
+            <li class="rolodex-item"><a href="#andris">Andrea</a></li>
+            <li class="rolodex-item"><a href="#andris">Andris</a></li>
+            <li class="rolodex-item"><a href="#another">Another</a></li>
+            <li class="rolodex-item"><a href="#another">Another</a></li>
+            <li class="rolodex-item"><a href="#another">Another</a></li>
+            <li class="rolodex-item"><a href="#another">Another</a></li>
+            <li class="rolodex-item"><a href="#another">Another</a></li>
+            <li class="rolodex-item"><a href="#another">Another</a></li>
+            <li class="rolodex-item"><a href="#another">Another</a></li>
+            <li class="rolodex-item"><a href="#another">Another</a></li>
+            <li class="rolodex-item"><a href="#another">Carrie</a></li>
+            <li class="rolodex-item"><a href="https://www.abolins.org/">Holly (CA)</a></li>
+            <li class="rolodex-item"><a href="#holly">Holly (MI)</a></li>
+            <li class="rolodex-item"><a href="#another">Inese</a></li>
+            <li class="rolodex-item"><a href="#another">Jana</a></li>
+            <li class="rolodex-item"><a href="#another">John</a></li>
+            <li class="rolodex-item"><a href="https://www.abolins.org/">Maris (site admin)</a></li>
+            <li class="rolodex-item"><a href="https://www.abolinsreading.com/">Meighan</a></li>
+            <li class="rolodex-item"><a href="#another">Peter</a></li>
+            <li class="rolodex-item"><a href="https://www.abolins.org/">Shayne</a></li>
+            <li class="rolodex-item"><a href="https://www.abolins.org/">Vivian</a></li>
+        </ul>
+    </div>
+
+    <script>
+        const rolodexList = document.getElementById('rolodexList');
+        const items = document.querySelectorAll('.rolodex-item');
+        
+        // Check if device supports touch
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+        if (isTouchDevice) {
+            // Mobile: Handle scroll events with minimal delay using requestAnimationFrame
+            let ticking = false;
+            
+            rolodexList.addEventListener('scroll', function() {
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        highlightCenteredItem();
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }, { passive: true }); // passive for better scroll performance
+
+            function highlightCenteredItem() {
+                const containerRect = rolodexList.getBoundingClientRect();
+                const containerCenter = containerRect.top + containerRect.height / 2;
+                
+                let closestItem = null;
+                let closestDistance = Infinity;
+
+                items.forEach(item => {
+                    const itemRect = item.getBoundingClientRect();
+                    const itemCenter = itemRect.top + itemRect.height / 2;
+                    const distance = Math.abs(containerCenter - itemCenter);
+
+                    if (distance < closestDistance) {
+                        closestDistance = distance;
+                        closestItem = item;
+                    }
+                });
+
+                // Remove active class from all items
+                items.forEach(item => item.classList.remove('active'));
+                
+                // Add active class to closest item if it's reasonably centered
+                if (closestItem && closestDistance < 150) {
+                    closestItem.classList.add('active');
+                }
+            }
+
+            // Initial highlight
+            highlightCenteredItem();
+        } else {
+            // Desktop: Hover is handled by CSS
+            rolodexList.addEventListener('mousemove', function(e) {
+                // Optional: Add additional mouse tracking if needed
+            });
+        }
+    </script>
+</body>
+</html>
