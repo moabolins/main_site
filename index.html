@@ -204,7 +204,8 @@
         .overlay.active {
             opacity: 1;
             visibility: visible;
-            pointer-events: auto;
+        //  pointer-events: auto;
+            pointer-events: none;
         }
 
         /* Desktop hover behavior */
@@ -383,13 +384,15 @@
         monumentImage.addEventListener('mouseenter', () => {
             if (isDesktop()) {
                 monumentPopup.classList.add('active');
+                cloverPopup.style.pointerEvents = 'auto';
                 overlay.classList.add('active');
                 activePopup = 'monument';
             }
         });
 
         monumentImage.addEventListener('mouseleave', (e) => {
-            if (isDesktop()) {
+        //  if (isDesktop()) {
+            if (isDesktop() && e.relatedTarget && !monumentImage.contains(e.relatedTarget)) {
                 setTimeout(() => {
                     if (activePopup === 'monument' && !monumentPopup.matches(':hover')) {
                         monumentPopup.classList.remove('active');
@@ -417,13 +420,15 @@
         cloverImage.addEventListener('mouseenter', () => {
             if (isDesktop()) {
                 cloverPopup.classList.add('active');
+                cloverPopup.style.pointerEvents = 'auto';
                 overlay.classList.add('active');
                 activePopup = 'clover';
             }
         });
 
         cloverImage.addEventListener('mouseleave', (e) => {
-            if (isDesktop()) {
+        //  if (isDesktop()) {
+            if (isDesktop() && e.relatedTarget && !monumentImage.contains(e.relatedTarget)) {
                 setTimeout(() => {
                     if (activePopup === 'clover' && !cloverPopup.matches(':hover')) {
                         cloverPopup.classList.remove('active');
